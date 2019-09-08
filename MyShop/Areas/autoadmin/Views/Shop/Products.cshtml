@@ -1,0 +1,126 @@
+﻿@model IEnumerable<MyShop.Models.ViewModels.Shop.ProductViewModel>
+
+@{
+    ViewBag.Title = "Товары";
+}
+@using PagedList.Mvc;
+@using PagedList;
+<h2>автотовары</h2>
+@if(TempData["DeleteProd"]!=null)
+        {
+            <div class="alert alert-success">Успешно удалено</div>
+}
+
+<p>
+    @Html.ActionLink("Добавить новый", "AddNewProduct")
+</p>
+<select id="SelectCategory" name="SelectCategory">
+    <option value="0">Все категории</option>
+    @foreach (var item in ViewBag.Categories)
+    {
+        if (ViewBag.SelectedCat == item.Value)
+        {
+                <option selected="selected" value="@item.Value">@item.Text</option>
+        }
+        else
+        {
+                <option value="@item.Value">@item.Text</option>
+        }
+    }
+</select>
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Name)*@
+            Название
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Slug)*@
+            Ссылка
+        </th>
+        <th>
+            @* @Html.DisplayNameFor(model => model.Description)*@
+            Краткое описание
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Price)*@
+            Цена
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.ImageString)
+            </th>*@
+        <th>
+            @*@Html.DisplayNameFor(model => model.CategoryName)*@
+            Категория
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.CategoryId)
+            </th>*@
+        <th></th>
+    </tr>
+    @foreach (var product in ViewBag.OnePageOfProducts)
+    {
+        <tr>
+            <td>
+                @product.Name
+            </td>
+            <td>
+                @product.Slug
+            </td>
+            <td>
+                @product.Description
+            </td>
+            <td>
+                @product.Price
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.ImageString)
+                </td>*@
+            <td>
+                @product.CategoryName
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.CategoryId)
+                </td>*@
+            <td>
+                <a href="/autoadmin/Controllers/Shop/@product.Id">
+                    <img src="~/Content/images/Upload/Products/@product.Id/Thumbs/@product.ImageString" />
+                </a>
+                @Html.ActionLink("редактировать", "EditProduct", new { id = product.Id }) |
+                @Html.ActionLink("Удалить", "DeleteProduct", new { id = product.Id }, new { @class = "delete" }) 
+                @*@Html.ActionLink("Delete", "Delete", new { id = product.Id })*@
+            </td>
+        </tr>
+    }
+
+
+
+</table>
+@Html.PagedListPager((IPagedList)ViewBag.OnePageOfProducts, page => Url.Action("Products", new { page, catId = ViewBag.SelectedCat }))
+
+@section Scripts{
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js">
+
+    </script>
+    <script>
+        $(function () {
+            $("#SelectCategory").on("change", function () {
+                var url = $(this).val();
+                if (url) {
+                    window.location = "/autoadmin/Shop/Products?catId=" + url;
+                }
+                return false;
+
+            });
+
+        $(".delete").click(function () {
+            if (!confirm("Вы уверенны?")) return false;
+            //alert("na ja");
+            //confirm("Sure???");
+        });
+       
+    });
+
+    </script>
+    }
+

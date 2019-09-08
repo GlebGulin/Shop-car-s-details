@@ -1,0 +1,211 @@
+﻿@model IEnumerable<MyShop.Models.ViewModels.Shop.CategoryViewModel>
+
+@{
+    ViewBag.Title = "Категории";
+}
+
+<h2>Категории</h2>
+@if (TempData["DelCat"] != null)
+{
+    <div class="alert alert-success sucsdelcat">Успешно удалено</div>
+}
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+<div class="new-category">
+    <input type="text" id="newcategory">
+    <p>
+        <a href="#" id="addnewcategory">Добавить категорию</a>
+        <span class="addmycat">
+            <img src="~/Content/images/ajax-loader.gif" />
+        </span>
+    </p>
+</div>
+
+@if (!Model.Any())
+{
+    <h2>Категорий не существует. Создайте категорию</h2>
+}
+else
+{
+    <table class="table sorting mycategor" id="pages">
+        <tr class="home">
+            <th>
+                @*@Html.DisplayNameFor(model => model.Name)*@
+                <label>Имя категории</label>
+
+            </th>
+            @*<th>
+                    <label>Ссылка</label>
+
+                </th>*@
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Sorting)
+                </th>*@
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr id="id_@item.Id" class="@item.Name">
+                <td>
+                    <div class="mytextcat"></div>
+                    @*@Html.DisplayFor(modelItem => item.Name)*@
+                    @Html.EditorFor(modelItem => item.Name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Slug)
+                    </td>*@
+
+                <td>
+
+                    @Html.ActionLink("Удалить категорию", "DelCat", new { id = item.Id }, new { @class = "delete" })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+@section Scripts {
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js">
+
+    </script>
+    @*<script src="~/Scripts/jquery-3.3.1.js"></script>*@
+
+    <script>
+
+        //Add mycategory
+        $(function () {
+            var buttonNewCat = $("a#addnewcategory");
+            var textNewCat = $("#newcategory");
+            var ajaxText = $("span.addmycat");
+            var table = $("table#pages tbody");
+            textNewCat.keyup(function (e) {
+                if (e.keyCode == 13) {
+                    buttonNewCat.click();
+                }
+            });
+            /////////////////////////////////////////
+            buttonNewCat.click(function (e) {
+                e.preventDefault();
+                var CatValue = textNewCat.val();
+                if (CatValue.length < 3) {
+                    alert("Слишком короткое значение");
+                    return false;
+                }
+                ajaxText.show();
+                var url = "/autoadmin/Shop/AddNewCategory";
+                $.post(url, { CatValue: CatValue }, function (data) {
+                    var response = data.trim();
+                    if (response == "titletaken") {
+                        ajaxText.html("<span class='alert alert-danger'>Это имя уже занято<span>");
+                        setTimeout(function () {
+                            ajaxText.fadeOut("fast", function () {
+                                ajaxText.html("<img src=/Content/images/ajax-loader.gif />");
+                            });
+                        }, 2000);
+                        return false;
+                    }
+                    else {
+                        if (!$("table#pages").length) {
+                            location.reload();
+                        }
+                        else {
+                            ajaxText.html("<span class='alert alert-success'>Успешно<span>");
+                            setTimeout(function () {
+                                ajaxText.fadeOut("fast", function () {
+                                    ajaxText.html("<img src=/Content/images/ajax-loader.gif />");
+                                });
+                            }, 2000);
+                            textNewCat.val("");
+                            var toAppend = $("table#pages tbody tr:last").clone();
+                            toAppend.attr("id", "id_" + data);
+                            toAppend.find("#item_Name").val(CatValue);
+                            toAppend.find("a.delete").attr("href", "/autoadmin/Shop/DelCat/" + data);
+                            table.append(toAppend);
+                            table.sortable("refresh");
+                        }
+
+                    }
+                });
+            });
+            ///////////////////////////////////
+            //Sortable
+            $("table#pages tbody").sortable({
+                item: "tr:not(.home)",
+                item: "tr",
+                placeholder: "ui-state-heighlight",
+                update: function () {
+                    var ids = $("table#pages tbody").sortable("serialize");
+                    var url = "/autoadmin/Shop/UpdateCat";
+                    $.post(url, ids, function (data) {
+
+                    })
+                }
+            });
+            //////////////////////////////////////////////////////////////
+
+            //$(".delete").click(function () {
+            //    if (!confirm("Вы уверенны?")) return false;
+            //});
+            //Delete the category
+            $("body").on("click", "a.delete", function () {
+                if (!confirm("Вы уверенны?")) return false;
+            });
+            ////////////////////////////////////////////////////////////////
+            //Change the category
+            var valuetextboxcat;
+            $("table#pages input.text-box").dblclick(function () {
+                valuetextboxcat = $(this).val();
+                $(this).attr("readonly", false);
+                //valuetextboxcat.keyup(function (e) {
+                //    if (e.keyCode == 13) {
+                //        $(this).attr("readonly", readonly);
+                //    }
+                //});
+            });
+            //
+            $("table#pages input.text-box").keyup(function (e) {
+                if (e.keyCode == 13) {
+                    $(this).blur();
+                    }
+                });
+            ////////////////////////////////////////////////////////////
+            $("table#pages input.text-box").blur(function () {
+                var $this = $(this);
+                var mytextcatmessage = $this.parent().find(".mytextcat");
+                var newmytextcat = $this.val();
+                var id = $this.parent().parent().attr("id").substring(3);
+                var url = "/autoadmin/Shop/ChangeCategory";
+                if (newmytextcat.length < 3) {
+                    alert("Слишком короткое значение");
+                    $(this).attr("readonly", true);
+                    return false;
+                }
+                $.post(url, { newmytextcat: newmytextcat, id: id }, function (data) {
+                    var response = data.trim();
+                    if (response == "titletaken") {
+                        alert("Такое имя уже существует");
+                        $this.val(valuetextboxcat);
+                        mytextcatmessage.html(" <span class= 'alert alert-danger'> Это имя уже занято <span>").show();
+                        //return false;
+                    }
+                    else {
+                        mytextcatmessage.html(" <span class= 'alert alert-success'> вы изменили название категории <span>").show();
+
+                    }
+                    setTimeout(function () {
+                        mytextcatmessage.fadeOut("fast", function () {
+                            mytextcatmessage.html("");
+                        })
+                    }, 2000);
+                }).done(function () {
+                    $this.attr("readonly", true);
+                });
+            });
+            //////////////////////////////////////////////////
+
+        });
+
+    </script>
+}

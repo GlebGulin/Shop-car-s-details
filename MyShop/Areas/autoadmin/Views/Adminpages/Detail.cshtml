@@ -1,0 +1,68 @@
+﻿@model MyShop.Models.ViewModels.Pages.PageViewModel
+
+@{
+    ViewBag.Title = "Детально";
+}
+
+<h2>Подробно</h2>
+
+<div>
+    @*<h4>PageViewModel</h4>*@
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <h3>Название</h3>
+           @* @Html.DisplayNameFor(model => model.Title)*@
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            <h3>Ссылка</h3>
+           @* @Html.DisplayNameFor(model => model.Link)*@
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Link)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sorting)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sorting)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HasSidebar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HasSidebar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Timepage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Timepage)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Назад", "Index")
+</p>

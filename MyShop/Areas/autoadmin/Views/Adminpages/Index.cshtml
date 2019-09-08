@@ -1,0 +1,113 @@
+﻿@model IEnumerable<MyShop.Models.ViewModels.Pages.PageViewModel>
+
+@{
+    /**/
+
+    ViewBag.Title = "Страницы сайта";
+}
+
+<h2>Страницы</h2>
+@if (TempData["Del"] != null)
+{
+    <div class="alert alert-success">Успешно удалено</div>
+}
+<p>
+    @Html.ActionLink("Добавить страницу", "AddPage")
+</p>
+@if (!Model.Any())
+
+{
+    <h1>Страниц не существует</h1>
+
+}
+else
+{
+    <table class="table sorting" id="pages">
+        <tr class="home">
+            <th>
+                @*@Html.DisplayNameFor(model => model.Title)*@
+                <p>Страница</p>
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Link)*@
+                <p>Ссылка</p>
+            </th>
+
+
+            <th>
+                @*@Html.DisplayNameFor(model => model.HasSidebar)*@
+                <p>Сайдбар</p>
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.HasSidebar)*@
+                <p>Время</p>
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr id="id_@item.Id" class="@item.Link">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Link)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Content)
+                    </td>*@
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Sorting)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.HasSidebar)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Timepage)
+                </td>
+                <td>
+                    @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Подробно", "Detail", new { id = item.Id }) 
+                    @if (item.Link != "home")
+                    {
+                        <span> | </span>
+                        @Html.ActionLink("Удалить", "Delete", new { id = item.Id }, new { @class = "delete"}) 
+                    }
+
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+@section Scripts{
+    <script src = "https://code.jquery.com/ui/1.12.0/jquery-ui.js">
+        
+    </script>
+<script>
+    $(function () {
+
+        $(".delete").click(function () {
+            if (!confirm("Вы уверенны?")) return false;
+            //alert("na ja");
+            //confirm("Sure???");
+        });
+        $("table#pages tbody").sortable({
+            //item: "tr:not(.home)",
+            item: "tr",
+            placeholder: "ui-state-heighlight",
+            update: function () {
+                var ids = $("table#pages tbody").sortable("serialize");
+                var url = "/autoadmin/Adminpages/RewriteList";
+                $.post(url, ids, function (data) {
+
+                })
+            }
+        });
+    });
+    
+</script>
+    
+
+    }
