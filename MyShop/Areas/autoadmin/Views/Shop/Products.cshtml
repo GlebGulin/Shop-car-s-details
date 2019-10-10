@@ -5,7 +5,7 @@
 }
 @using PagedList.Mvc;
 @using PagedList;
-<h2>автотовары</h2>
+<h2>Магазин автотоваров</h2>
 @if(TempData["DeleteProd"]!=null)
         {
             <div class="alert alert-success">Успешно удалено</div>
@@ -14,6 +14,12 @@
 <p>
     @Html.ActionLink("Добавить новый", "AddNewProduct")
 </p>
+@if (!Model.Any())
+{
+    <div><h2>Товаров не существует</h2></div>
+}
+else
+{
 <select id="SelectCategory" name="SelectCategory">
     <option value="0">Все категории</option>
     @foreach (var item in ViewBag.Categories)
@@ -84,7 +90,14 @@
                 </td>*@
             <td>
                 <a href="/autoadmin/Controllers/Shop/@product.Id">
+                    @if (product.ImageString != null)
+                    {
                     <img src="~/Content/images/Upload/Products/@product.Id/Thumbs/@product.ImageString" />
+                    }
+                    else
+                    {
+                        <img src="~/Content/images/Upload/Products/No-photo.jpg" />
+                    }
                 </a>
                 @Html.ActionLink("редактировать", "EditProduct", new { id = product.Id }) |
                 @Html.ActionLink("Удалить", "DeleteProduct", new { id = product.Id }, new { @class = "delete" }) 
@@ -92,10 +105,12 @@
             </td>
         </tr>
     }
+    
 
 
 
 </table>
+}
 @Html.PagedListPager((IPagedList)ViewBag.OnePageOfProducts, page => Url.Action("Products", new { page, catId = ViewBag.SelectedCat }))
 
 @section Scripts{

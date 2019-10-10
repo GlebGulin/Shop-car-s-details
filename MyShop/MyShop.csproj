@@ -235,8 +235,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\ajax-loader.gif" />
-    <Content Include="Content\images\Upload\Products\24\348967486747.jpg" />
-    <Content Include="Content\images\Upload\Products\24\Thumbs\348967486747.jpg" />
+    <Content Include="Content\images\Upload\Products\No-photo.jpg" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fileman\css\images\animated-overlay.gif" />
@@ -518,14 +517,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Content\images\Upload\Products\20\Chrysanthemum.jpg" />
-    <Content Include="Content\images\Upload\Products\20\Thumbs\Chrysanthemum.jpg" />
-    <Content Include="Content\images\Upload\Products\21\1149.750.jpg" />
-    <Content Include="Content\images\Upload\Products\21\Thumbs\1149.750.jpg" />
-    <Content Include="Content\images\Upload\Products\22\67467257_shatun-dvigatelya-cummins.jpg" />
-    <Content Include="Content\images\Upload\Products\22\Thumbs\67467257_shatun-dvigatelya-cummins.jpg" />
-    <Content Include="Content\images\Upload\Products\23\70179das-960.jpg" />
-    <Content Include="Content\images\Upload\Products\23\Thumbs\70179das-960.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\autoadmin\Views\web.config" />
@@ -921,6 +912,14 @@
     <Content Include="Scripts\ckeditor\skins\v2\skin.js" />
     <Content Include="Scripts\ckeditor\skins\v2\templates.css" />
     <Content Include="Scripts\ckeditor\themes\default\theme.js" />
+    <Content Include="Scripts\dropzone\basic.css" />
+    <Content Include="Scripts\dropzone\basic.min.css" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.min.js" />
+    <Content Include="Scripts\dropzone\dropzone.css" />
+    <Content Include="Scripts\dropzone\dropzone.js" />
+    <Content Include="Scripts\dropzone\dropzone.min.css" />
+    <Content Include="Scripts\dropzone\dropzone.min.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -945,13 +944,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\autoadmin\Models\" />
-    <Folder Include="Content\images\Upload\Products\0\Gallery\Thumbs\" />
-    <Folder Include="Content\images\Upload\Products\0\Thumbs\" />
-    <Folder Include="Content\images\Upload\Products\20\Gallery\Thumbs\" />
-    <Folder Include="Content\images\Upload\Products\21\Gallery\Thumbs\" />
-    <Folder Include="Content\images\Upload\Products\22\Gallery\Thumbs\" />
-    <Folder Include="Content\images\Upload\Products\23\Gallery\Thumbs\" />
-    <Folder Include="Content\images\Upload\Products\24\Gallery\Thumbs\" />
     <Folder Include="Controllers\" />
     <Folder Include="fileman\aspnet_client\system_web\2_0_50727\" />
     <Folder Include="fileman\aspnet_client\system_web\4_0_30319\" />

@@ -167,7 +167,7 @@ namespace MyShop.Areas.autoadmin.Controllers
 
                     }
                 }
-                if (db.product.Any(x => x.Name == newprod.Name) || db.shoppages.Any(x => x.Link == newprod.Slug))
+                if (db.product.Any(x => x.Name == newprod.Name) || db.product.Any(x => x.Slug == newprod.Slug))
                 {
                     newprod.Categories = new SelectList(db.categories.ToList(), "Id", "Name");
 
@@ -258,7 +258,7 @@ namespace MyShop.Areas.autoadmin.Controllers
 
             }
             #endregion
-
+            TempData["Editprod"] = "Изменено";
             return RedirectToAction("AddNewProduct");
         }
         public ActionResult Products(int? page, int? catId)
@@ -279,7 +279,7 @@ namespace MyShop.Areas.autoadmin.Controllers
                 ViewBag.SelectedCat = catId.ToString();
             }
             //Pagination for pages
-            var onePageOfProducts = allproducts.ToPagedList(numberPage, 5);
+            var onePageOfProducts = allproducts.ToPagedList(numberPage, 10);
             ViewBag.OnePageOfProducts = onePageOfProducts;
             return View(allproducts);
         }
@@ -304,6 +304,137 @@ namespace MyShop.Areas.autoadmin.Controllers
             return View(productViewModel);
             
         }
+        [HttpPost]
+        public ActionResult EditProduct (ProductViewModel productViewModel, HttpPostedFileBase file)
+        {
+            int id = productViewModel.Id;
+            using (Db db = new Db())
+            {
+                productViewModel.Categories = new SelectList(db.categories.ToList(), "Id", "Name");
+               
+                //return View(productViewModel);
+
+            }
+            productViewModel.MyPictures = Directory.EnumerateFiles(Server.MapPath("~/Content/images/Upload/Products/" + id + "/Gallery/Thumbs"))
+                   .Select(y => Path.GetFileName(y));
+            if (!ModelState.IsValid)
+            {
+                return View(productViewModel);
+            }
+            using (Db db = new Db())
+            {
+                if (db.product.Where(x => x.Id != id).Any(x => x.Name == productViewModel.Name) || db.product.Where(x => x.Id != id).Any(x => x.Slug == productViewModel.Slug))
+                {
+                    productViewModel.Categories = new SelectList(db.categories.ToList(), "Id", "Name");
+
+                    ModelState.AddModelError("Такое название товара или ссылка уже существуют ", " ");
+                    return View(productViewModel);
+                }
+            }
+           
+
+
+            using (Db db = new Db())
+            {
+                Products changeprod = db.product.Find(id);
+                changeprod.Name = productViewModel.Name;
+                string slugprod;
+                if (string.IsNullOrWhiteSpace(productViewModel.Slug))
+                {
+
+                    slugprod = productViewModel.Name.ToLower();
+                    Translitor translitor = new Translitor();
+                    foreach (KeyValuePair<string, string> pair in translitor._words)
+                    {
+                        slugprod = slugprod.Replace(pair.Key, pair.Value);
+
+                    }
+                }
+                else
+                {
+                    slugprod = productViewModel.Slug.ToLower();
+                    Translitor translitor = new Translitor();
+                    foreach (KeyValuePair<string, string> pair in translitor._words)
+                    {
+                        slugprod = slugprod.Replace(pair.Key, pair.Value);
+
+                    }
+                }
+               
+                changeprod.Slug = slugprod;
+                changeprod.Price = productViewModel.Price;
+                changeprod.Description = productViewModel.Description;
+                changeprod.CategoryId = productViewModel.CategoryId;
+                //changeprod.ImageString = productViewModel.ImageString;
+                Categories newcat = db.categories.FirstOrDefault(x => x.Id == productViewModel.CategoryId);
+                changeprod.CategoryName = newcat.Name;
+                
+                db.SaveChanges();
+                //id = newpr.Id;
+                
+            }
+            TempData["EditProd"] = "Товар изменен";
+            #region Update photo
+            if (file != null && file.ContentLength >0)
+            {
+                string extention = file.ContentType.ToLower();
+                if (extention != "image/jpg" &&
+                   extention != "image/png" &&
+                   extention != "image/jpeg" &&
+                   extention != "image/gif" &&
+                   extention != "image/x-png" &&
+                   extention != "image/pjpeg")
+                {
+                    using (Db db = new Db())
+                    {
+                        //productViewModel.Categories = new SelectList(db.categories.ToList(), "Id", "Name");
+                        ModelState.AddModelError(" ", "Неверный формат картинки");
+                        return View(productViewModel);
+                    }
+
+                }
+                var imagedirectory = new DirectoryInfo(string.Format("{0}Content\\images\\Upload", Server.MapPath(@"\")));
+                //var imagedirectory = new DirectoryInfo();
+
+
+                //var namepicture1 = Path.Combine(imagedirectory.ToString(), "Products");
+                var namepicture1 = Path.Combine(imagedirectory.ToString(), "Products\\" + id.ToString());
+                var namepicture2 = Path.Combine(imagedirectory.ToString(), "Products\\" + id.ToString() + "\\Thumbs");
+                //var namepicture4 = Path.Combine(imagedirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery");
+                //var namepicture5 = Path.Combine(imagedirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery\\Thumbs");
+                
+                //Delete old file from directory
+                DirectoryInfo fordel1 = new DirectoryInfo(namepicture1);
+                DirectoryInfo fordel2 = new DirectoryInfo(namepicture2);
+                foreach (FileInfo file1 in fordel1.GetFiles())
+                {
+                    file1.Delete();
+                }
+                foreach (FileInfo file2 in fordel2.GetFiles())
+                {
+                    file2.Delete();
+                }
+                //Save image name
+                string filename = file.FileName;
+                using (Db db = new Db())
+                {
+                    Products prodedit = db.product.Find(id);
+                    prodedit.ImageString = filename;
+                    db.SaveChanges();
+                }
+                var path1 = string.Format("{0}\\{1}", namepicture1, filename);
+                var path2 = string.Format("{0}\\{1}", namepicture2, filename);
+                file.SaveAs(path1);
+                WebImage webImage = new WebImage(file.InputStream);
+                webImage.Resize(200, 300);
+                webImage.Save(path2);
+
+            }
+            #endregion
+            return RedirectToAction("EditProduct");
+            //return RedirectToAction("Products");
+
+        }
     //    [HttpPost]
     //    public ActionResult EditProduct(ProductViewModel)
     //    {
@@ -317,6 +448,15 @@ namespace MyShop.Areas.autoadmin.Controllers
                 db.product.Remove(delprod);
                 db.SaveChanges();
             }
+            //Delete product's directory
+            //var pathstring = Path.Combine("Products\\" + id.ToString());
+            var pathstring = new DirectoryInfo(string.Format("{0}Content\\images\\Upload", Server.MapPath(@"\")));
+            string pathdelete = Path.Combine(pathstring.ToString(), "Products\\" + id.ToString());
+
+
+            if (Directory.Exists(pathdelete))
+                Directory.Delete(pathdelete, true);
+
             TempData["DeleteProd"] = "Успешно удалено";
             return RedirectToAction("Products");
         }
