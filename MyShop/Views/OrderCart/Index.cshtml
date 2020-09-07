@@ -1,0 +1,163 @@
+﻿@model IEnumerable<NGLayer.Models.ViewModels.Order.CartOrderViewModel>
+
+@{
+    ViewBag.Title = "Корзина";
+}
+
+<h2>Корзина</h2>
+@if (ViewBag.Message != null)
+{
+    <p>@ViewBag.Message</p>
+}
+else
+{
+    <table class="table">
+        <tr>
+
+            <th>
+                Имя
+            </th>
+            <th>
+                Колличество
+            </th>
+            <th>
+                Цена
+            </th>
+            <th>
+                Общая цена
+            </th>
+            <th>
+                Картинка
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td class="quantity@(item.ProductId)">
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    <span>@Html.DisplayFor(modelItem => item.Price)</span>&#8372;
+                </td>
+                <td class="totalprice@(item.ProductId)">
+                    <span>@Html.DisplayFor(modelItem => item.TotalPrice)</span>&#8372;
+                </td>
+                <td>
+                    @if (item.ImageProduct != null)
+                    {
+                        <img src="~/Content/images/Upload/Products/@item.ProductId/Thumbs/@item.ImageProduct" />
+                    }
+                    else
+                    {
+                        <img src="~/Content/images/Upload/Products/No-photo.jpg" />
+                    }
+                </td>
+                <td>
+                    <a href="#" class="productincrease" data-id="@item.ProductId">+</a>
+                    <a href="#" class="productdecrease" data-id="@item.ProductId">-</a>
+                    <a href="#" class="productdelete" data-id="@item.ProductId">X</a>
+                </td>
+            </tr>
+
+        }
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="wholecoast">
+                <span>@ViewBag.WholeTotal</span>&#8372;
+            </td>
+        </tr>
+
+    </table>
+
+
+}
+@section Scripts {
+
+        <script>
+            $(".productincrease").click(function (e) {
+                e.preventDefault();
+                var productId = $(this).data("id")
+                var url = "OrderCart/IncreaseProductCart";
+                $.getJSON(url, { productId: productId }, function (data) {
+                    $("td.quantity" + productId).html(data.quantity);
+                    var price = data.quantity * data.price;
+                    var priceHTML = "&#8372;" + price.toFixed(2);
+                    $("td.totalprice" + productId).html(priceHTML);
+                    var wc = parseFloat($("td.wholecoast span").text());
+                    var wholecoast = (wc + data.price).toFixed(2);
+                    $("td.wholecoast span").text(wholecoast);
+                    //$(".basket").reload();
+
+                })
+                //confirm("Вы уверенны");
+            });
+            $(".productdecrease").click(function (e) {
+                e.preventDefault();
+                var $this = $(this);
+                var productId = $(this).data("id")
+                var url = "OrderCart/DecreaseProductCart";
+                //var frontquantity = $("quantity" + productId).toFixed(0);
+
+                $.getJSON(url, { productId: productId }, function (data) {
+
+                    if (data.quantity == 0 ) {
+                        //if (confirm("Удалить товар из корзины?")) {
+                            $this.parent().parent().fadeOut("fast", function () {
+                                location.reload();
+                            });
+                        //}
+                        //else {
+                            
+                        //    return false;
+                        //    location.reload();
+                        //}
+                    }
+                    else {
+                        $("td.quantity" + productId).html(data.quantity);
+                        var price = data.quantity * data.price;
+                        var priceHTML = price.toFixed(2) + "&#8372;";
+                        $("td.totalprice" + productId).html(priceHTML);
+                        var wc = parseFloat($("td.wholecoast span").text());
+                        var wholecoast = (wc - data.price).toFixed(2);
+                        $("td.wholecoast span").text(wholecoast);
+                        //location.reload();
+                        //$(".basket").reload();
+                    }
+                    
+
+                })
+                //confirm("Вы уверенны");
+            });
+            $(".productdelete").click(function (e) {
+                e.preventDefault();
+                var $this = $(this);
+                var productId = $(this).data("id")
+                var url = "OrderCart/DeletePosition"
+                if (confirm("Вы уверенны, что хотите ужалить товар из корзины?")) {
+                    
+                    $.get(url, { productId: productId }, function (data) {
+                        location.reload();
+                        //$this.parent().parent().fadeOut("fast", function () {
+                        //    location.reload();
+                        //});
+                    });
+                }
+                else {
+                    return false;
+                }
+
+            });
+
+        </script>
+    
+    }
+

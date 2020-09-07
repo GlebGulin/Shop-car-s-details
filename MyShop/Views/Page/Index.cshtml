@@ -1,0 +1,12 @@
+﻿@model NGLayer.Models.ViewModels.Pages.PageViewModel
+
+@{
+    ViewBag.Title = ViewBag.PageTitle;
+    TempData["PageTitle"] = ViewBag.PageTitle;
+}
+<h1>@Model.Title</h1>
+@Html.Raw(Model.Content);
+<hr />
+@Html.Action("ClientCommentPartial", "Page", new { id = Model.Id });
+<textarea>Для комментариев</textarea>
+

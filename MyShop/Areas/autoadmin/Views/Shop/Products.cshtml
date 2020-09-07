@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MyShop.Models.ViewModels.Shop.ProductViewModel>
+﻿@model IEnumerable<NGLayer.Models.ViewModels.Shop.ProductViewModel>
 
 @{
     ViewBag.Title = "Товары";
@@ -89,7 +89,7 @@ else
                     @Html.DisplayFor(modelItem => item.CategoryId)
                 </td>*@
             <td>
-                <a href="/autoadmin/Controllers/Shop/@product.Id">
+                <a href="/autoadmin/Shop/Details/@product.Id">
                     @if (product.ImageString != null)
                     {
                     <img src="~/Content/images/Upload/Products/@product.Id/Thumbs/@product.ImageString" />
@@ -100,8 +100,8 @@ else
                     }
                 </a>
                 @Html.ActionLink("редактировать", "EditProduct", new { id = product.Id }) |
-                @Html.ActionLink("Удалить", "DeleteProduct", new { id = product.Id }, new { @class = "delete" }) 
-                @*@Html.ActionLink("Delete", "Delete", new { id = product.Id })*@
+                @Html.ActionLink("Удалить", "DeleteProduct", new { id = product.Id }, new { @class = "delete" }) |
+                @Html.ActionLink("Подробно", "Details", new { id = product.Id })
             </td>
         </tr>
     }

@@ -1,6 +1,7 @@
-﻿using MyShop.Content;
-using MyShop.Models.Data;
-using MyShop.Models.ViewModels.Shop;
+﻿using Binding.Models;
+using MyShop.Content;
+using NGLayer.Models.Data;
+using NGLayer.Models.ViewModels.Shop;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -53,7 +54,7 @@ namespace MyShop.Areas.autoadmin.Controllers
                 db.categories.Add(newcat);
                 db.SaveChanges();
                 id = newcat.Id.ToString();
-                
+
             }
             return id;
             //return View();
@@ -62,7 +63,7 @@ namespace MyShop.Areas.autoadmin.Controllers
         {
             using (Db db = new Db())
             {
-                Categories categories=db.categories.Find(id);
+                Categories categories = db.categories.Find(id);
                 db.categories.Remove(categories);
                 db.SaveChanges();
 
@@ -74,7 +75,7 @@ namespace MyShop.Areas.autoadmin.Controllers
         [HttpPost]
         public void UpdateCat(int[] id)
         {
-           
+
             using (Db db = new Db())
             {
                 Categories categories;
@@ -88,7 +89,23 @@ namespace MyShop.Areas.autoadmin.Controllers
                 }
 
             }
-                
+
+        }
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+            ProductViewModel model;
+            using (Db db = new Db())
+            {
+
+                Products shop = db.product.Find(id);
+                if (shop == null)
+                {
+                    return Content(" ", "Товар еще не создан");
+                }
+                model = new ProductViewModel(shop);
+            }
+            return View(model);
         }
         [HttpPost]
         public string ChangeCategory(string newmytextcat, int id)
@@ -112,7 +129,7 @@ namespace MyShop.Areas.autoadmin.Controllers
                 changecat.Slug = newslug;
                 db.SaveChanges();
             }
-                return newmytextcat;
+            return newmytextcat;
         }
         [HttpGet]
         public ActionResult AddNewProduct()
@@ -120,10 +137,10 @@ namespace MyShop.Areas.autoadmin.Controllers
             ProductViewModel newprod = new ProductViewModel();
             //if (ModelState.IsValid)
             //{
-                using (Db db = new Db())
-                {
-                    newprod.Categories = new SelectList(db.categories.ToList(), "Id", "Name");
-                }
+            using (Db db = new Db())
+            {
+                newprod.Categories = new SelectList(db.categories.ToList(), "Id", "Name");
+            }
             //}
             return View(newprod);
         }
@@ -222,12 +239,12 @@ namespace MyShop.Areas.autoadmin.Controllers
                 //Get extention of file
                 var ext = newfile.ContentType.ToLower();
                 //check the extention
-                if (ext != "image/jpg" && 
+                if (ext != "image/jpg" &&
                     ext != "image/png" &&
                     ext != "image/jpeg" &&
                     ext != "image/gif" &&
                     ext != "image/x-png" &&
-                    ext != "image/pjpeg" )
+                    ext != "image/pjpeg")
                 {
                     using (Db db = new Db())
                     {
@@ -289,7 +306,7 @@ namespace MyShop.Areas.autoadmin.Controllers
             ProductViewModel productViewModel;
             using (Db db = new Db())
             {
-                
+
                 Products editprod = db.product.Find(id);
                 if (editprod == null)
                 {
@@ -302,16 +319,16 @@ namespace MyShop.Areas.autoadmin.Controllers
 
             }
             return View(productViewModel);
-            
+
         }
         [HttpPost]
-        public ActionResult EditProduct (ProductViewModel productViewModel, HttpPostedFileBase file)
+        public ActionResult EditProduct(ProductViewModel productViewModel, HttpPostedFileBase file)
         {
             int id = productViewModel.Id;
             using (Db db = new Db())
             {
                 productViewModel.Categories = new SelectList(db.categories.ToList(), "Id", "Name");
-               
+
                 //return View(productViewModel);
 
             }
@@ -331,7 +348,7 @@ namespace MyShop.Areas.autoadmin.Controllers
                     return View(productViewModel);
                 }
             }
-           
+
 
 
             using (Db db = new Db())
@@ -360,7 +377,7 @@ namespace MyShop.Areas.autoadmin.Controllers
 
                     }
                 }
-               
+
                 changeprod.Slug = slugprod;
                 changeprod.Price = productViewModel.Price;
                 changeprod.Description = productViewModel.Description;
@@ -368,14 +385,14 @@ namespace MyShop.Areas.autoadmin.Controllers
                 //changeprod.ImageString = productViewModel.ImageString;
                 Categories newcat = db.categories.FirstOrDefault(x => x.Id == productViewModel.CategoryId);
                 changeprod.CategoryName = newcat.Name;
-                
+
                 db.SaveChanges();
                 //id = newpr.Id;
-                
+
             }
             TempData["EditProd"] = "Товар изменен";
             #region Update photo
-            if (file != null && file.ContentLength >0)
+            if (file != null && file.ContentLength > 0)
             {
                 string extention = file.ContentType.ToLower();
                 if (extention != "image/jpg" &&
@@ -402,7 +419,7 @@ namespace MyShop.Areas.autoadmin.Controllers
                 var namepicture2 = Path.Combine(imagedirectory.ToString(), "Products\\" + id.ToString() + "\\Thumbs");
                 //var namepicture4 = Path.Combine(imagedirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery");
                 //var namepicture5 = Path.Combine(imagedirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery\\Thumbs");
-                
+
                 //Delete old file from directory
                 DirectoryInfo fordel1 = new DirectoryInfo(namepicture1);
                 DirectoryInfo fordel2 = new DirectoryInfo(namepicture2);
@@ -435,12 +452,12 @@ namespace MyShop.Areas.autoadmin.Controllers
             //return RedirectToAction("Products");
 
         }
-    //    [HttpPost]
-    //    public ActionResult EditProduct(ProductViewModel)
-    //    {
+        //    [HttpPost]
+        //    public ActionResult EditProduct(ProductViewModel)
+        //    {
 
-    //    }
-         public ActionResult DeleteProduct(int id)
+        //    }
+        public ActionResult DeleteProduct(int id)
         {
             using (Db db = new Db())
             {
@@ -460,5 +477,140 @@ namespace MyShop.Areas.autoadmin.Controllers
             TempData["DeleteProd"] = "Успешно удалено";
             return RedirectToAction("Products");
         }
+        //[HttpPost]
+        //public void SaveGallery(int id)
+        //{
+        //    //Loop throw files
+        //    foreach (string fileUploaded in Request.Files)
+        //    {
+        //        HttpPostedFileBase file = Request.Files[fileUploaded];
+        //        if(file!=null && file.ContentLength>0)
+        //        {
+        //            var pathstring = new DirectoryInfo(string.Format("{0}Content\\images\\Upload", Server.MapPath(@"\")));
+        //            string pathgallery1 = Path.Combine(pathstring.ToString(), "Products\\"+id.ToString()+"\\Gallery");
+        //            string pathgallery2 = Path.Combine(pathstring.ToString(), "Products\\"+id.ToString()+"\\Gallery\\Thumbs");
+        //            if (!Directory.Exists(pathgallery1))
+        //            {
+        //                Directory.CreateDirectory(pathgallery1);
+        //            }
+        //            if (!Directory.Exists(pathgallery2))
+        //            {
+        //                Directory.CreateDirectory(pathgallery2);
+        //            }
+        //            var gallery1 = string.Format(@"{0}\\{1}", pathgallery1, file.FileName);
+        //            var gallery2 = string.Format(@"{0}\\{1}", pathgallery2, file.FileName);
+        //            file.SaveAs(gallery1);
+        //            WebImage img = new WebImage(file.InputStream);
+        //            img.Resize(300, 200);
+        //            img.Save(gallery2);
+        //        }
+        //    }
+        //}
+        [HttpPost]
+        public void SaveGalleryImages(int Id)
+        {
+            
+            // Loop through files
+            foreach (string fileName in Request.Files)
+            {
+                // Init the file
+                HttpPostedFileBase file = Request.Files[fileName];
+
+                // Check it's not null
+                if (file != null && file.ContentLength > 0)
+                {
+                    // Set directory paths
+                    var originalDirectory = new DirectoryInfo(string.Format("{0}Content\\images\\Upload", Server.MapPath(@"\")));
+
+                    string pathString1 = Path.Combine(originalDirectory.ToString(), "Products\\" + Id.ToString() + "\\Gallery");
+                    string pathString2 = Path.Combine(originalDirectory.ToString(), "Products\\" + Id.ToString() + "\\Gallery\\Thumbs");
+
+                    //string pathString1 = Path.Combine(originalDirectory.ToString(), "Products\\"  + "\\TestFolder");
+                    //string pathString2 = Path.Combine(originalDirectory.ToString(), "Products\\"  + "\\TestFolder\\Thumbs");
+                    // Set image paths
+                    var path = string.Format("{0}\\{1}", pathString1, file.FileName);
+                    var path2 = string.Format("{0}\\{1}", pathString2, file.FileName);
+
+                    // Save original and thumb
+
+                    file.SaveAs(path);
+                    WebImage img = new WebImage(file.InputStream);
+                    img.Resize(300, 300);
+                    img.Save(path2);
+                }
+
+            }
+
+        }
+        [HttpPost]
+        public void SaveGalleryImage(int? id)
+        {
+            //id = 65;
+            // Loop through files
+            foreach (string fileName in Request.Files)
+            {
+                // Init the file
+                HttpPostedFileBase file = Request.Files[fileName];
+
+                // Check it's not null
+                if (file != null && file.ContentLength > 0)
+                {
+                    // Set directory paths
+                    var originalDirectory = new DirectoryInfo(string.Format("{0}Content\\images\\Upload", Server.MapPath(@"\")));
+
+                    string pathString1 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery");
+                    string pathString2 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery\\Thumbs");
+
+                    // Set image paths
+                    var path = string.Format("{0}\\{1}", pathString1, file.FileName);
+                    var path2 = string.Format("{0}\\{1}", pathString2, file.FileName);
+
+                    // Save original and thumb
+
+                    file.SaveAs(path);
+                    WebImage img = new WebImage(file.InputStream);
+                    img.Resize(200, 200);
+                    img.Save(path2);
+                }
+
+            }
+
+        }
+
+        [HttpPost]
+        public void DelFromGallery(int id, string imgName)
+        {
+            string fullPath1 = Request.MapPath("~/Content/images/Upload/Products/" + id.ToString()+"/Gallery/"+imgName);
+            string fullPath2 = Request.MapPath("~/Content/images/Upload/Products/" + id.ToString() + "/Gallery/Thumbs/" + imgName);
+            if(System.IO.File.Exists(fullPath1))
+            {
+                System.IO.File.Delete(fullPath1);
+            }
+            if (System.IO.File.Exists(fullPath2))
+            {
+                System.IO.File.Delete(fullPath2);
+            }
+            //return View();
+        }
+        [HttpGet]
+        public ActionResult ReviewList()
+        {
+            List<ReviewsViewModel> rvVM;
+            //List<Products> prdct;
+            int id;
+            using (Db db = new Db())
+            {
+                rvVM = db.reviews.ToArray().OrderBy(x => x.AdminConfirm).Select(x => new ReviewsViewModel(x)).ToList();
+                //prdct = db.product.ToArray().Select;
+                foreach (var item in rvVM)
+                {
+                    Products p = db.product.Find(item.ProductId);
+                    item.ProductName = p.Name;
+                }
+                
+            }
+            return View(rvVM);
+        }
+
     }
 }

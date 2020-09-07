@@ -1,0 +1,22 @@
+﻿@model IEnumerable<NGLayer.Models.ViewModels.Shop.CategoryViewModel>
+
+@*@{
+        string CategoryTitle = (string)TempData["CategoryTitle"];
+    }*@
+
+
+@foreach (var item in Model)
+{
+    @*if (CategoryTitle == item.Name)
+        {
+            <a href="/@item.Slug" class="dropdown-item text-secondary navbar-brand active-link">@item.Slug</a>
+        }
+        else
+        {
+            <a href="/@item.Slug" class="dropdown-item text-secondary navbar-brand">@item.Slug</a>
+        }*@
+
+    <a href="/buy/category/@item.Slug.ToLower()" class="dropdown-item text-secondary navbar-brand">@item.Name</a>
+
+}
+<a href="/buy/allproducts" class="dropdown-item text-secondary navbar-brand">Все товары</a>

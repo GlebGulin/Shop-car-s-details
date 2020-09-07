@@ -133,22 +133,17 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\autoadmin\autoadminAreaRegistration.cs" />
-    <Compile Include="Areas\autoadmin\Controllers\AdminpagesController.cs" />
+    <Compile Include="Areas\autoadmin\Controllers\AdminPagesController.cs" />
     <Compile Include="Areas\autoadmin\Controllers\PanelController.cs" />
     <Compile Include="Areas\autoadmin\Controllers\ShopController.cs" />
     <Compile Include="Content\Translitor.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BuyController.cs" />
+    <Compile Include="Controllers\OrderCartController.cs" />
+    <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Data\Categories.cs" />
-    <Compile Include="Models\Data\Db.cs" />
-    <Compile Include="Models\Data\Products.cs" />
-    <Compile Include="Models\Data\ShopPages.cs" />
-    <Compile Include="Models\Data\Sidebar.cs" />
-    <Compile Include="Models\ViewModels\Pages\PageViewModel.cs" />
-    <Compile Include="Models\ViewModels\Pages\SidebarViewModel.cs" />
-    <Compile Include="Models\ViewModels\Shop\CategoryViewModel.cs" />
-    <Compile Include="Models\ViewModels\Shop\ProductViewModel.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
@@ -234,8 +229,26 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\fancybox\blank.gif" />
+    <Content Include="Content\fancybox\fancybox_buttons.png" />
+    <Content Include="Content\fancybox\fancybox_loading%402x.gif" />
+    <Content Include="Content\fancybox\fancybox_loading.gif" />
+    <Content Include="Content\fancybox\fancybox_overlay.png" />
+    <Content Include="Content\fancybox\fancybox_sprite%402x.png" />
+    <Content Include="Content\fancybox\fancybox_sprite.png" />
     <Content Include="Content\images\ajax-loader.gif" />
+    <Content Include="Content\images\Upload\Products\64\20200802_131251.jpg" />
+    <Content Include="Content\images\Upload\Products\64\Gallery\1149.750.jpg" />
+    <Content Include="Content\images\Upload\Products\64\Gallery\69337078_2302568276523046_816234551507419136_n %281%29.jpg" />
+    <Content Include="Content\images\Upload\Products\64\Gallery\Thumbs\1149.750.jpg" />
+    <Content Include="Content\images\Upload\Products\64\Gallery\Thumbs\69337078_2302568276523046_816234551507419136_n %281%29.jpg" />
+    <Content Include="Content\images\Upload\Products\64\Thumbs\20200802_131251.jpg" />
+    <Content Include="Content\images\Upload\Products\66\FaaptLI1p84.jpg" />
+    <Content Include="Content\images\Upload\Products\66\Thumbs\FaaptLI1p84.jpg" />
     <Content Include="Content\images\Upload\Products\No-photo.jpg" />
+    <Content Include="Content\jquery.fancybox-buttons.css" />
+    <Content Include="Content\jquery.fancybox-thumbs.css" />
+    <Content Include="Content\jquery.fancybox.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fileman\css\images\animated-overlay.gif" />
@@ -568,6 +581,10 @@
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
     <Content Include="Areas\autoadmin\Views\Shop\Products.cshtml" />
     <Content Include="Areas\autoadmin\Views\Shop\EditProduct.cshtml" />
+    <Content Include="Areas\autoadmin\Views\Shop\Detail.cshtml" />
+    <Content Include="Areas\autoadmin\Views\Adminpages\CommentList.cshtml" />
+    <Content Include="Areas\autoadmin\Views\Shop\Details.cshtml" />
+    <Content Include="Areas\autoadmin\Views\Shop\ReviewList.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\ckeditor\ckeditor.php" />
     <Content Include="Scripts\ckeditor\ckeditor_basic.js" />
@@ -925,6 +942,12 @@
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.fancybox-buttons.js" />
+    <Content Include="Scripts\jquery.fancybox-media.js" />
+    <Content Include="Scripts\jquery.fancybox-thumbs.js" />
+    <Content Include="Scripts\jquery.fancybox.js" />
+    <Content Include="Scripts\jquery.fancybox.pack.js" />
+    <Content Include="Scripts\jquery.mousewheel-3.0.6.pack.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -941,15 +964,33 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Page\Index.cshtml" />
+    <Content Include="Views\Page\PageMenuPatial.cshtml" />
+    <Content Include="Views\Page\ClientCommentPartial.cshtml" />
+    <Content Include="Views\Page\SidebarPartial.cshtml" />
+    <Content Include="Views\Buy\CategoryMenuPartial.cshtml" />
+    <Content Include="Views\Buy\Index.cshtml" />
+    <Content Include="Views\Buy\Category.cshtml" />
+    <Content Include="Views\Buy\Details.cshtml" />
+    <Content Include="Views\Buy\AllProducts.cshtml" />
+    <Content Include="Views\Buy\ClientReviewPartial.cshtml" />
+    <Content Include="Views\OrderCart\OrderCartPartial.cshtml" />
+    <Content Include="Views\OrderCart\Index.cshtml" />
+    <Content Include="Views\OrderCart\AddtomycartPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\autoadmin\Models\" />
-    <Folder Include="Controllers\" />
+    <Folder Include="Content\images\Upload\Products\59\Gallery\" />
+    <Folder Include="Content\images\Upload\Products\66\Gallery\Thumbs\" />
+    <Folder Include="Content\images\Upload\Products\TestFolder\Thumbs\" />
     <Folder Include="fileman\aspnet_client\system_web\2_0_50727\" />
     <Folder Include="fileman\aspnet_client\system_web\4_0_30319\" />
     <Folder Include="fileman\tmp\" />
     <Folder Include="fileman\Uploads\Documents\" />
     <Folder Include="fileman\Uploads\FLV\" />
+    <Folder Include="Models\" />
+    <Folder Include="Views\Account\" />
+    <Folder Include="Views\Order\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -963,6 +1004,16 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Binding\Binding.csproj">
+      <Project>{644C6BC1-60F0-4699-9C0E-FCBA3EADF50A}</Project>
+      <Name>Binding</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NGLayer\NGLayer.csproj">
+      <Project>{3637E068-3DB5-4E8D-920B-71C9C9F43127}</Project>
+      <Name>NGLayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

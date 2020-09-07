@@ -1,0 +1,28 @@
+﻿@model IEnumerable<NGLayer.Models.ViewModels.Pages.CommentsViewModel>
+
+<p>
+   
+</p>
+@if (Model.Any())
+{
+<h2>Комментарии</h2>
+<div class="comments">
+@foreach (var item in Model)
+{
+    <div class="comment">
+                <div class="commentauthor">
+                    @Html.DisplayFor(modelItem => item.AuthorName) написал в @Html.DisplayFor(modelItem => item.DatePost)
+                </div>
+                <div class="commenttext">
+                    @Html.DisplayFor(modelItem => item.CommentText)
+                </div>
+        </div>
+
+}
+
+</div>
+}
+else
+{
+    <h2>Комментариев пока нет</h2>
+}

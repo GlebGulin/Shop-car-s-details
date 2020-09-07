@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title – приложение ASP.NET</title>
+    <title>@ViewBag.Title – KiddiKids</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -17,27 +17,94 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Имя приложения", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <a href="/" class="navbar-brand">Временно</a>
+                @*@Html.ActionLink("Стартовая", "Index", "Page", new { area = "" }, new { @class = "navbar-brand" })*@
+
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>
-                    <li>@Html.ActionLink("О программе", "About", "Home")</li>
-                    <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
+                    @*<li>
+            @Html.ActionLink("Имя приложения", "Index", "Home", new { area = "" })
+        </li>
+        <li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>
+        <li>@Html.ActionLink("О программе", "About", "Home")</li>
+        <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
+        <li>@Html.ActionLink("Блог", "", "")</li>*@
+
+                    @*<li><a href="/Home/Index">Имя приложения</a></li>
+        <li><a href="/Home/About">О программе</a></li>
+        <li><a href="/Home/Contact">Контакт</a></li>
+        <li><a href="/">Блог</a></li>*@
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" href=""><span class="nav-label">Товары</span> <span class="caret"></span></a>
+
+                        <ul class="dropdown-menu">
+                            <li>@Html.Action("CategoryMenuPartial", "Buy");</li>
+                           
+
+                            @*<li>@Html.Action("PageMenuPatial", "Page");</li>*@
+                        </ul>
+
+                    </li>
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"><span class="nav-label">Блог</span> <span class="caret"></span></a>
+
+                        <ul class="dropdown-menu">
+
+                            <li>@Html.Action("PageMenuPatial", "Page");</li>
+                        </ul>
+
+                    </li>
+
+
+
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @*<li>
+                @Html.ActionLink("Страницы", "Index", "autoadmin/AdminPages", new { area = "" }, new { @class = "navbar-brand" })
+            </li>*@
+                    <li><a href="/autoadmin" class="navbar-brand" target="_blank">В админку</a></li>
+                    <li>@Html.Action("OrderCartPartial", "OrderCart", new { @class = "navbar-brand"})</li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="container body-content">
-        @RenderBody()
+        <div class="row">
+            <div class="col-xs-12 col-md-2">
+                @Html.Action("CategoryMenuPartial", "Buy");
+
+            </div>
+            @if (ViewBag.SideBar == "YES")
+            {
+                <div class="col-xs-12 col-md-7 maincontent">
+                    @RenderBody()
+                </div>
+                <div class="col-xs-12 col-md-3 sidebar">
+                    @Html.Action("SidebarPartial", "Page");
+                </div>
+
+            }
+            else
+            {
+
+                <div class="col-xs-12 col-md-10">
+                    @RenderBody()
+                </div>
+
+            }
+        </div>
+        
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year – приложение ASP.NET</p>
+            <p>&copy; @DateTime.Now.Year – Ваш магазин</p>
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/scripts")
+    @*@Scripts.Render("~/bundles/bootstrap")*@
     @RenderSection("scripts", required: false)
 </body>
 </html>

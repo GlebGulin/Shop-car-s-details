@@ -1,16 +1,17 @@
 ﻿//using MyShop.Models.Data;
-using MyShop.Models.Data;
-using MyShop.Models.ViewModels.Pages;
+using NGLayer.Models.Data;
+using NGLayer.Models.ViewModels.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MyShop.Content;
+using Binding.Models;
 
 namespace MyShop.Areas.autoadmin.Controllers
 {
-    public class AdminpagesController : Controller
+    public class AdminPagesController : Controller
     {
         
         // GET: autoadmin/Adminpages
@@ -241,7 +242,7 @@ namespace MyShop.Areas.autoadmin.Controllers
             SidebarViewModel model;
             using (Db db = new Db())
             {
-                Sidebar sidebar = db.sidebar.Find(1);
+                SideBar sidebar = db.sidebar.Find(1);
                 model = new SidebarViewModel(sidebar);
 
             }
@@ -256,7 +257,7 @@ namespace MyShop.Areas.autoadmin.Controllers
             }
             using (Db db = new Db())
             {
-                Sidebar sidebar = db.sidebar.Find(1);
+                SideBar sidebar = db.sidebar.Find(1);
                 sidebar.Content = model.Content;
                 db.SaveChanges();
             }
@@ -264,6 +265,23 @@ namespace MyShop.Areas.autoadmin.Controllers
             TempData["Updt"] = "Изменения в боковой панели сохранены";
             return RedirectToAction("EditSidebar");
 
+        }
+        //Get list of all comments
+        [HttpGet]
+        public ActionResult CommentList()
+        {
+            List<CommentsViewModel> comVM;
+            using (Db db = new Db())
+            {
+
+                comVM = db.comments.ToArray().OrderBy(x => x.DatePost).Select(x => new CommentsViewModel(x)).ToList();
+                foreach (var item in comVM)
+                {
+                    ShopPages p = db.shoppages.Find(item.ArticleId);
+                    item.ArticleName = p.Title;
+                }
+            }
+            return View(comVM);
         }
     }
 }

@@ -18,21 +18,33 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a href="/autoadmin" class="navbar-brand">Админ</a>
-                @Html.ActionLink("Страницы", "Index", "autoadmin/AdminPages", new { area = "" }, new { @class = "navbar-brand" })
+                @*@Html.ActionLink("Страницы", "Index", "autoadmin/AdminPages", new { area = "" }, new { @class = "navbar-brand" })
                 @Html.ActionLink("Сайдбар", "EditSidebar", "autoadmin/AdminPages", new { area = "" }, new { @class = "navbar-brand" })
                 @Html.ActionLink("Категории", "CategorList", "autoadmin/Shop", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Товары", "Products", "autoadmin/Shop", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Товары", "Products", "autoadmin/Shop", new { area = "" }, new { @class = "navbar-brand" })*@
+
 
                 @*@Html.ActionLink("Имя приложения", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     
+                        <li><a href="/autoadmin/AdminPages/Index">Страницы</a></li>
+                        <li><a href="/autoadmin/AdminPages/EditSidebar">Сайдбар</a></li>
+                        <li><a href="/autoadmin/Shop/CategorList">Категории</a></li>
+                        <li><a href="/autoadmin/Shop/Products">Товары</a></li>
+                        <li><a href="/autoadmin/AdminPages/CommentList">Коментарии</a></li>
+                        <li><a href="/autoadmin/Shop/ReviewList">Отзывы</a></li>
+                        
+
+                        @*<li><a href="/admin/shop/Orders">Orders</a></li>*@
+                    
                 </ul>
                 <ul class="navbar-right">
                     @*<li>
-                        @Html.ActionLink("Страницы", "Index", "autoadmin/AdminPages", new { area = "" }, new { @class = "navbar-brand" })
-                    </li>*@
+                            @Html.ActionLink("Страницы", "Index", "autoadmin/AdminPages", new { area = "" }, new { @class = "navbar-brand" })
+                        </li>*@
                     <li><a href="/" class="navbar-brand" target="_blank">В магазин</a></li>
                 </ul>
             </div>
@@ -42,11 +54,12 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy, @DateTime.Now.Year – Админка=)</p>
+            <p>&copy, @DateTime.Now.Year – Админпанель магазина</p>
         </footer>
     </div>
 
     @Scripts.Render("~/bundles/scripts")
+    @Scripts.Render("~/bundles/dropzone")
     @*@Scripts.Render("~/bundles/bootstrap")*@
     @RenderSection("scripts", required: false)
 </body>

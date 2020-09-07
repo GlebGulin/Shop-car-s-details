@@ -43,3 +43,48 @@ span.addmycat {
 table.mycategor td {
     padding: 30px !important;
 }
+.comments {
+    border: 4px double black;
+    border-radius: 15px;
+}
+.commentauthor {
+    font-size: 150%;
+    color: red;
+}
+.commenttext {
+    font-size: 170%;
+    color: green;
+}
+body .active-link {
+    color: red !important;
+}
+.maincontent img {
+    width: 100% !important;
+    height: auto !important;
+}
+.productName {
+    color: red;
+    font-size: 200%
+}
+.productImg {
+    height: 270px;
+}
+.addmessage {
+    display:none;
+    position: absolute;
+    background-color: yellow;
+    color: green;
+    padding:20px;
+}
+.loader {
+    display:none;
+}
+.imggalery {
+    width: 70%;
+}
+.basket {
+    color: white !important;
+}
+.ib {
+    display: inline-block !important;
+}

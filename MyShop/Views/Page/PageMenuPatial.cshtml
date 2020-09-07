@@ -1,0 +1,21 @@
+﻿@model IEnumerable<NGLayer.Models.ViewModels.Pages.PageViewModel>
+
+@{ 
+    string PageTitle = (string)TempData["PageTitle"];
+}
+
+
+@foreach (var item in Model) {
+       if (PageTitle == item.Title)
+        {
+            <a href="/@item.Link" class="dropdown-item text-secondary navbar-brand active-link">@item.Title</a>
+    }
+    else
+        {
+            <a href="/@item.Link" class="dropdown-item text-secondary navbar-brand">@item.Title</a>
+        }
+
+
+}
+
+

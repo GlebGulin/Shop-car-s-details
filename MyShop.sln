@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28307.705
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyShop", "MyShop\MyShop.csproj", "{EB580F29-743F-4D91-864D-A4B55B19AD34}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Binding", "Binding\Binding.csproj", "{644C6BC1-60F0-4699-9C0E-FCBA3EADF50A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NGLayer", "NGLayer\NGLayer.csproj", "{3637E068-3DB5-4E8D-920B-71C9C9F43127}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{EB580F29-743F-4D91-864D-A4B55B19AD34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB580F29-743F-4D91-864D-A4B55B19AD34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB580F29-743F-4D91-864D-A4B55B19AD34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{644C6BC1-60F0-4699-9C0E-FCBA3EADF50A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{644C6BC1-60F0-4699-9C0E-FCBA3EADF50A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{644C6BC1-60F0-4699-9C0E-FCBA3EADF50A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{644C6BC1-60F0-4699-9C0E-FCBA3EADF50A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3637E068-3DB5-4E8D-920B-71C9C9F43127}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3637E068-3DB5-4E8D-920B-71C9C9F43127}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3637E068-3DB5-4E8D-920B-71C9C9F43127}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3637E068-3DB5-4E8D-920B-71C9C9F43127}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

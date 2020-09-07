@@ -1,0 +1,74 @@
+﻿@model IEnumerable<NGLayer.Models.ViewModels.Shop.ReviewsViewModel>
+
+@*<h2>Отзывы</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NameAuthor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReviewText)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AdminConfirm)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DatePost)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameAuthor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReviewText)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdminConfirm)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DatePost)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>*@
+@if (Model.Any())
+{
+    <h2>Отзывы</h2>
+    <div class="comments">
+        @foreach (var item in Model)
+        {
+            <div class="comment">
+                <div class="commentauthor">
+                    @Html.DisplayFor(modelItem => item.NameAuthor) написал @Html.DisplayFor(modelItem => item.DatePost)
+                </div>
+                <div class="commenttext">
+                    @Html.DisplayFor(modelItem => item.ReviewText)
+                </div>
+            </div>
+
+        }
+
+    </div>
+}
+else
+{
+    <h2>Отзывов пока нет</h2>
+}
+

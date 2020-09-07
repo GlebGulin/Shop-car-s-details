@@ -1,0 +1,98 @@
+﻿@model NGLayer.Models.ViewModels.Shop.ProductViewModel
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+
+
+<div class="row">
+    <h1>@Model.Name</h1>
+    <hr />
+    <div class="col-xs-12 col-sm-4">
+        <img src="~/Content/images/Upload/Products/@Model.Id/Thumbs/@Model.ImageString" />
+    </div>
+    <div class="col-xs-12 col-sm-8">
+        <div>
+            @Model.Name
+        </div>
+        <div>
+            @Model.Description
+        </div>
+        <div>
+            @Model.Price
+        </div>
+        <div>
+            @Model.CategoryName
+        </div>
+        <div>
+            <button><a href="#" class="cartproduct">Добавить в корзину</a></button>
+            <span class="loader">
+                <img src="~/Content/images/ajax-loader.gif" />
+            </span>
+            <span class="addmessage">
+                Продукт был успешно добавлен в корзину
+            </span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    @if (Model.MyPictures.Any())
+    {
+        <h2>Галерея</h2>
+    }
+    else
+    {
+        <h2>Галерея еще не создана</h2>
+    }
+
+    <div class="col-xs-12 fancyblockdiv">
+        @foreach (var item in Model.MyPictures)
+        {
+            @*<div class="col-xs-12 col-md-4">
+                    <img class="imggalery"  src="~/Content/images/Upload/Products/@Model.Id/Gallery/@item" />
+                </div>*@
+            <div style="display:inline-block">
+                <a class="fancybox" rel="gallery-one" href="~/Content/images/Upload/Products/@Model.Id/Gallery/@item">
+                    <img src="~/Content/images/Upload/Products/@Model.Id/Gallery/Thumbs/@item" />
+                </a>
+            </div>
+        }
+
+    </div>
+
+</div>
+<div class="row">
+    @Html.Action("ClientReviewPartial", "Buy", new { id = Model.Id });
+</div>
+
+<link href="~/Content/jquery.fancybox.css" rel="stylesheet" />
+@section Scripts {
+    <script src="~/Scripts/jquery.fancybox.js"></script>
+    <script>
+        $(function () {
+            $(".fancybox").fancybox();
+        })
+        //$(function () {
+        //    $(".cartproduct").click(function () {
+        //        $(".addmessage").show();
+        //        $(".loader").show();
+        //    })
+        //});
+        $(".cartproduct").click(function (e) {
+            e.preventDefault();
+            $("span.loader").addClass("ib");
+            var url = "/OrderCart/AddtomycartPartial";
+            $.get(url, { id: @Model.Id}, function (data) {
+                $(".basket").html(data);
+            }).done(function () {
+                $("span.loader").removeClass("ib");
+                $("span.addmessage").addClass("ib");
+                setTimeout(function () {
+                    $("span.addmessage").fadeOut("fast");
+                    $("span.addmessage").removeClass("ib");
+                },2000);
+            });
+        });
+    </script>
+    }

@@ -1,0 +1,7 @@
+﻿@model NGLayer.Models.ViewModels.Order.CartOrderViewModel
+
+
+<div class="basket">
+    <span>@Model.Quantity товаров на сумму @Model.Price &#8372;</span>
+    <div>@Html.ActionLink("Заказать", "Index")</div>
+</div>
