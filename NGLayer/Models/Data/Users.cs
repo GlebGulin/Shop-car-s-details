@@ -17,6 +17,7 @@ namespace NGLayer.Models.Data
         public string Mail { get; set; }
         public string NickName { get; set; }
         public string Pass { get; set; }
+        public string PhoneNumber { get; set; }
         public DateTime DateRegistration { get; set; }
         public Users()
         {

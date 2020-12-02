@@ -1,5 +1,6 @@
 ﻿
 using NGLayer.Models.Data;
+using NGLayer.Models.Data.Orders;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -20,6 +21,11 @@ namespace Binding.Models
         public DbSet<Reviews> reviews { get; set; }
         public DbSet<Users> users { get; set; }
         public DbSet<Roles> roles { get; set; }
+        public DbSet<UserRole> userRoles { get; set; }
+        public DbSet<OrdersDetail> ordersdetails { get; set; }
+        public DbSet<OrdersAuthorized> ordersauthorizeds { get; set; }
+        public DbSet<Orders> orders { get; set; }
+        public DbSet<OrderDetail> orderDetails { get; set; }
 
     }
 }

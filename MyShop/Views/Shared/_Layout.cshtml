@@ -40,7 +40,7 @@
 
                         <ul class="dropdown-menu">
                             <li>@Html.Action("CategoryMenuPartial", "Buy");</li>
-                           
+
 
                             @*<li>@Html.Action("PageMenuPatial", "Page");</li>*@
                         </ul>
@@ -56,6 +56,22 @@
                         </ul>
 
                     </li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li class="dropdown">
+                            <a href="/account/logout" class="dropdown-toggle">Выйти</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="dropdown">
+                            <span><a href="/account/enter" class="dropdown-toggle">Вoйти</a></span>
+                        </li>
+                    }
+                    @if (Request.IsAuthenticated && User.IsInRole("User"))
+                    {
+                        <li class="dropdown">@Html.Action("UserInfoPartial", "Account", new { area = "" })</li>
+                    }
 
 
 
@@ -63,48 +79,84 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @*<li>
-                @Html.ActionLink("Страницы", "Index", "autoadmin/AdminPages", new { area = "" }, new { @class = "navbar-brand" })
-            </li>*@
+            @Html.ActionLink("Страницы", "Index", "autoadmin/AdminPages", new { area = "" }, new { @class = "navbar-brand" })
+        </li>*@
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
                     <li><a href="/autoadmin" class="navbar-brand" target="_blank">В админку</a></li>
-                    <li>@Html.Action("OrderCartPartial", "OrderCart", new { @class = "navbar-brand"})</li>
+                    }
+                    <li>@Html.Action("OrderCartPartial", "OrderCart", new { @class = "navbar-brand" })</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li class="sessionBlock">
+
+
+                            <div class="sessionName">
+                                @*<span>@Html.Action("UserInfoPartial", "Account", new { area = "" })</span>*@
+                                <span><a href="/account/logout">Выйти</a></span>
+                            </div>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="sessionBlock">
+
+
+                            <div class="sessionName">
+                               <span><a href="/account/enter">Вoйти</a></span>
+                            </div>
+                        </li>
+                    }
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li class="sessionBlock">
+                            <div class="sessionName">
+                                <a href="/account/your-account">@Html.Action("UserInfoPartial", "Account", new { area = "" })</a>
+                            </div>
+                        </li>
+                    }
+
+                    @*@*<li class="sessionBlock">
+                        <span><a href="/account/logout">Выйти</a></span>
+                    </li>*@
                 </ul>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        <div class="row">
-            <div class="col-xs-12 col-md-2">
-                @Html.Action("CategoryMenuPartial", "Buy");
+        <div class="container body-content">
+            <div class="row">
+                <div class="col-xs-12 col-md-2">
+                    @Html.Action("CategoryMenuPartial", "Buy");
 
+                </div>
+                @if (ViewBag.SideBar == "YES")
+                {
+                    <div class="col-xs-12 col-md-7 maincontent">
+                        @RenderBody()
+                    </div>
+                    <div class="col-xs-12 col-md-3 sidebar">
+                        @Html.Action("SidebarPartial", "Page");
+                    </div>
+
+                }
+                else
+                {
+
+                    <div class="col-xs-12 col-md-10">
+                        @RenderBody()
+                    </div>
+
+                }
             </div>
-            @if (ViewBag.SideBar == "YES")
-            {
-                <div class="col-xs-12 col-md-7 maincontent">
-                    @RenderBody()
-                </div>
-                <div class="col-xs-12 col-md-3 sidebar">
-                    @Html.Action("SidebarPartial", "Page");
-                </div>
 
-            }
-            else
-            {
-
-                <div class="col-xs-12 col-md-10">
-                    @RenderBody()
-                </div>
-
-            }
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year – Ваш магазин</p>
+            </footer>
         </div>
-        
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year – Ваш магазин</p>
-        </footer>
-    </div>
 
-    @Scripts.Render("~/bundles/scripts")
-    @*@Scripts.Render("~/bundles/bootstrap")*@
-    @RenderSection("scripts", required: false)
+        @Scripts.Render("~/bundles/scripts")
+        @*@Scripts.Render("~/bundles/bootstrap")*@
+                            @RenderSection("scripts", required: false)
 </body>
 </html>

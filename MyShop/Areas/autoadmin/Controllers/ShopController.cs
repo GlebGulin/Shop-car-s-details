@@ -1,6 +1,9 @@
 ﻿using Binding.Models;
+using MyShop.Areas.autoadmin.ViewModels.Store;
 using MyShop.Content;
 using NGLayer.Models.Data;
+using NGLayer.Models.Data.Orders;
+using NGLayer.Models.ViewModels.Order;
 using NGLayer.Models.ViewModels.Shop;
 using PagedList;
 using System;
@@ -13,6 +16,7 @@ using System.Web.Mvc;
 
 namespace MyShop.Areas.autoadmin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ShopController : Controller
     {
         // GET: autoadmin/Shop
@@ -610,6 +614,56 @@ namespace MyShop.Areas.autoadmin.Controllers
                 
             }
             return View(rvVM);
+        }
+        public ActionResult Orders()
+        {
+            List<AdminOrdersViewModel> adminOrdersViewModels = new List<AdminOrdersViewModel>();
+            //List<Orders> orders = new List<Orders>();
+            using (Db db = new Db())
+            {
+                List<OrdersViewModel> ordersVM = db.orders.ToArray().Select(x => new OrdersViewModel(x)).ToList();
+                foreach (var order in ordersVM)
+                {
+                    Dictionary<string, int> prodQuantity = new Dictionary<string, int>();
+                    decimal totalCoast = 0m;
+                    List<OrderDetail> orderDetails = db.orderDetails.Where(x => x.OrderId == order.OrderId).ToList();
+                    /*************************/
+                    //data of user
+                    int NumberOrder = order.OrderId;
+                    string userName = order.Name;
+                    string userSurName = order.SurName;
+                    string usermail = order.Mail;
+                    string userPhone = order.Phone;
+                    bool orderConfirmed = order.Confirmed;
+                    bool userRegistered = order.Registered;
+                    DateTime orderDate = order.DateOrder;
+
+                    /*************************/
+                    foreach (var orderDetail in orderDetails)
+                    {
+                        Products product = db.product.Where(x => x.Id == orderDetail.ProductId).FirstOrDefault();
+                        decimal price = product.Price;
+                        string productName = product.Name;
+                        prodQuantity.Add(productName, orderDetail.Quantity);
+                        totalCoast += orderDetail.Quantity * price;
+                    }
+                    adminOrdersViewModels.Add(new AdminOrdersViewModel()
+                    {
+                        OrderId = NumberOrder,
+                        UserName = userName,
+                        UserLastName = userSurName,
+                        UserMail = usermail,
+                        UserPhone = userPhone,
+                        Confirmed = orderConfirmed,
+                        Reistered = userRegistered,
+                        DateOrder = orderDate,
+                        TotalCoast = totalCoast,
+                        ProductQuantity = prodQuantity
+                    });
+
+                }
+            }
+            return View(adminOrdersViewModels);
         }
 
     }

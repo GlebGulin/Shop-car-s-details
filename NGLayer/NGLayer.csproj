@@ -127,6 +127,10 @@
     <Compile Include="Models\Data\Categories.cs" />
     <Compile Include="Models\Data\Comments.cs" />
     <Compile Include="Models\Data\Messangers.cs" />
+    <Compile Include="Models\Data\OrdersAuthorized.cs" />
+    <Compile Include="Models\Data\OrdersDetail.cs" />
+    <Compile Include="Models\Data\Orders\OrderDetail.cs" />
+    <Compile Include="Models\Data\Orders\Orders.cs" />
     <Compile Include="Models\Data\Products.cs" />
     <Compile Include="Models\Data\Reviews.cs" />
     <Compile Include="Models\Data\Roles.cs" />
@@ -135,6 +139,8 @@
     <Compile Include="Models\Data\UserRole.cs" />
     <Compile Include="Models\Data\Users.cs" />
     <Compile Include="Models\ViewModels\Order\CartOrderViewModel.cs" />
+    <Compile Include="Models\ViewModels\Order\UserOrdersViewModel.cs" />
+    <Compile Include="Models\ViewModels\Order\OrdersViewModel.cs" />
     <Compile Include="Models\ViewModels\Pages\CommentsViewModel.cs" />
     <Compile Include="Models\ViewModels\Pages\PageViewModel.cs" />
     <Compile Include="Models\ViewModels\Pages\SidebarViewModel.cs" />
@@ -142,8 +148,11 @@
     <Compile Include="Models\ViewModels\Shop\ProductViewModel.cs" />
     <Compile Include="Models\ViewModels\Shop\ReviewsViewModel.cs" />
     <Compile Include="Models\ViewModels\Social\MessangerViewModel.cs" />
+    <Compile Include="Models\ViewModels\YourAccount\EnterViewModel.cs" />
     <Compile Include="Models\ViewModels\YourAccount\RolesViewModel.cs" />
+    <Compile Include="Models\ViewModels\YourAccount\UserInfoPartialViewModel.cs" />
     <Compile Include="Models\ViewModels\YourAccount\UsersViewModel.cs" />
+    <Compile Include="Models\ViewModels\YourAccount\YourProfileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

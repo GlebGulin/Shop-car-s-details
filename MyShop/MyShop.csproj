@@ -136,6 +136,7 @@
     <Compile Include="Areas\autoadmin\Controllers\AdminPagesController.cs" />
     <Compile Include="Areas\autoadmin\Controllers\PanelController.cs" />
     <Compile Include="Areas\autoadmin\Controllers\ShopController.cs" />
+    <Compile Include="Areas\autoadmin\ViewModels\Store\AdminOrdersViewModel.cs" />
     <Compile Include="Content\Translitor.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BuyController.cs" />
@@ -585,6 +586,7 @@
     <Content Include="Areas\autoadmin\Views\Adminpages\CommentList.cshtml" />
     <Content Include="Areas\autoadmin\Views\Shop\Details.cshtml" />
     <Content Include="Areas\autoadmin\Views\Shop\ReviewList.cshtml" />
+    <Content Include="Areas\autoadmin\Views\Shop\Orders.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\ckeditor\ckeditor.php" />
     <Content Include="Scripts\ckeditor\ckeditor_basic.js" />
@@ -977,6 +979,13 @@
     <Content Include="Views\OrderCart\OrderCartPartial.cshtml" />
     <Content Include="Views\OrderCart\Index.cshtml" />
     <Content Include="Views\OrderCart\AddtomycartPartial.cshtml" />
+    <Content Include="Views\Account\NewAccount.cshtml" />
+    <Content Include="Views\Account\Enter.cshtml" />
+    <Content Include="Views\Account\UserInfoPartial.cshtml" />
+    <Content Include="Views\Account\YourAccount.cshtml" />
+    <Content Include="Views\OrderCart\OrderAll.cshtml" />
+    <Content Include="Views\OrderCart\ThankPage.cshtml" />
+    <Content Include="Views\Account\MyOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\autoadmin\Models\" />
@@ -989,7 +998,6 @@
     <Folder Include="fileman\Uploads\Documents\" />
     <Folder Include="fileman\Uploads\FLV\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Account\" />
     <Folder Include="Views\Order\" />
   </ItemGroup>
   <ItemGroup>

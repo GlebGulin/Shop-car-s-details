@@ -7,13 +7,13 @@ using System.Web;
 
 namespace NGLayer.Models.ViewModels.YourAccount
 {
-    public class UsersViewModel
+    public class YourProfileViewModel
     {
-        public UsersViewModel()
+        public YourProfileViewModel()
         {
 
         }
-        public UsersViewModel(Users u)
+        public YourProfileViewModel(Users u)
         {
             Id = u.Id;
             FirstName = u.FirstName;

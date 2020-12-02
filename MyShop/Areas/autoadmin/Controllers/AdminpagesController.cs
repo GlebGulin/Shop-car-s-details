@@ -11,6 +11,7 @@ using Binding.Models;
 
 namespace MyShop.Areas.autoadmin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminPagesController : Controller
     {
         

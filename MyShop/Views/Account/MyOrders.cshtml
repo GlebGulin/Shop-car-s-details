@@ -1,0 +1,50 @@
+﻿@model IEnumerable<NGLayer.Models.ViewModels.Order.UserOrdersViewModel>
+
+@{
+    ViewBag.Title = "MyOrders";
+}
+
+<h2>MyOrders</h2>
+
+<p>
+    @*@Html.ActionLink("Create New", "Create")*@
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Номер заказа
+        </th>
+        <th>
+            Товар и количество
+        </th>
+        <th>
+            Общая стоимость
+        </th>
+        <th>
+            Дата
+        </th>
+        
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderId)
+        </td>
+        <td>
+           @foreach (var detail in item.ProductQuantity)
+           {
+                @detail.Key @:x @detail.Value</br>
+           }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalCoast)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateOrder)
+        </td>
+
+    </tr>
+}
+
+</table>

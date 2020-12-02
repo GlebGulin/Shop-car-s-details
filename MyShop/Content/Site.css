@@ -82,8 +82,16 @@ body .active-link {
 .imggalery {
     width: 70%;
 }
-.basket {
+.basket, .sessionName {
     color: white !important;
+}
+.sessionBlock {
+    margin-left:20px;
+}
+.sessionName a {
+    text-decoration: none !important;
+    color: #fff;
+
 }
 .ib {
     display: inline-block !important;

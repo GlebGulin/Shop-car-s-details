@@ -55,7 +55,7 @@ namespace MyShop.Controllers
 
                 return View(pgVM);
         }
-        [HttpGet]
+        //[HttpGet]
         public ActionResult PageMenuPatial()
         {
             //List<PageViewModel> pgList;

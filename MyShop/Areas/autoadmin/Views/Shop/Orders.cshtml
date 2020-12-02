@@ -1,0 +1,94 @@
+﻿@model IEnumerable<MyShop.Areas.autoadmin.ViewModels.Store.AdminOrdersViewModel>
+
+@{
+    ViewBag.Title = "Orders";
+}
+
+<h2>Orders</h2>
+@if (!Model.Any())
+{
+    <p>Заказов еще нет</p>
+}
+else
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                Номер заказа
+            </th>
+            <th>
+                Имя
+            </th>
+            <th>
+                Фамилия
+            </th>
+            <th>
+                Почта
+            </th>
+            <th>
+                Телефон
+            </th>
+            <th>
+                Покупатель зарегестрирован
+            </th>
+            <th>
+                Заказ подтвержден
+            </th>
+            <th>
+                Детали заказа
+            </th>
+            <th>
+                Общая стоимость
+            </th>
+            <th>
+                Дата
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserLastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserMail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reistered)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Confirmed)
+            </td>
+            <td>
+               @foreach (var detail in item.ProductQuantity)
+               {
+                   @detail.Key @:x @detail.Value</br>
+               }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalCoast)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOrder)
+            </td>
+
+        </tr>
+        }
+
+    </table>
+
+}
